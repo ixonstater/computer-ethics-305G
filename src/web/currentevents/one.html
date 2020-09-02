@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="../comments/comment.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                var comments = new Comments("/currentevents/one.html")
+                comments.createUi()
+                comments.getComments()
+            })
+        </script>
+    </head>
+    <body>
+        <h1>Current Events One</h1>
+    </body>
+</html>

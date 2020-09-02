@@ -15,20 +15,29 @@ class GetComments{
     }
 
     function process($postBody){
-        $page = $postBody["page"];
-        $query = $this->mysqlConn->prepare("select * from comments where page=?");
-        $query->bind_param("s", $page);
-        $query->execute();
-        $result = $query->get_result();
-        
-        $comments = [];
-        while($row = $result->fetch_assoc()){
-            $comments[] = $row;
-        }
+        try{
+            $page = $postBody["page"];
+            $query = $this->mysqlConn->prepare("select * from comments where page=? order by calldatetime desc");
+            $query->bind_param("s", $page);
+            $query->execute();
+            $result = $query->get_result();
+            
+            $comments = [];
+            while($row = $result->fetch_assoc()){
+                $comments[] = $row;
+            }
 
-        echo(json_encode([
-            "comments" => $comments
-        ]));
+            echo(json_encode([
+                "success" => true,
+                "comments" => $comments
+            ]));
+        }
+        catch(\Exception $e){
+            echo(json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]));
+        }
     }
 }
 

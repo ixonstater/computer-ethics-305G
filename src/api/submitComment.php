@@ -15,14 +15,25 @@ class SubmitComment{
     }
 
     function process($postBody){
-        $comment = $postBody["comment"];
-        $user = $postBody["user"];
-        $page = $postBody["page"];
-        
-        $query = $this->mysqlConn->prepare("insert into comments values (?, ?, ?, default)");
-        $query->bind_param("sss", $user, $comment, $page);
-        $query->execute();
-
+        try{
+            $comment = $postBody["comment"];
+            $user = $postBody["user"];
+            $page = $postBody["page"];
+            
+            $query = $this->mysqlConn->prepare("insert into comments values (?, ?, ?, default)");
+            $query->bind_param("sss", $user, $comment, $page);
+            $query->execute();
+            echo(json_encode([
+                "success" => true,
+                "message" => "Successfully submitted comment"
+            ]));
+        }
+        catch(\Exception $e){
+            echo(json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]));
+        }
     }
 }
 

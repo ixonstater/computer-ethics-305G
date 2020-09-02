@@ -1,30 +1,31 @@
 version: "3.3"
 services:
   webapp:
+    image: webserver
+    container_name: webserver
     build:
-      context: /home/ixonstater/school/computer-ethics
-      dockerfile: docker/dockerfilenginx
+      context: ../
+      dockerfile: docker/Dockerfile
     volumes:
-      - /home/ixonstater/school/computer-ethics/src:/var/www/html
-      - /home/ixonstater/school/computer-ethics/access.log:/var/log/nginx/access.log
+      - ${APP_ROOT}src:/var/www/html
+      - ${APP_ROOT}access.log:/var/log/apache2/access.log
     ports:
-      - "80:80"
+      - 80:80
     depends_on:
-      - phpimage
-    links:
-      - phpimage
-
-  phpimage:
-    image: php:7-fpm
-    volumes:
-      - /home/ixonstater/school/computer-ethics/src:/var/www/html
+      - dbapp
+    networks:
+      - appnet
   
-  db:
-    image: mysql
+  dbapp:
+    image: mysql:5.7.31
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: therootpasswordserver339017
     volumes:
-      - /home/ixonstater/school/computer-ethics/mysqldata:/var/lib/mysql
-    ports:
-      - "33060:3306"
+      - ${APP_ROOT}mysqldata:/var/lib/mysql
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge

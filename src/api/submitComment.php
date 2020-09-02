@@ -11,13 +11,18 @@ class SubmitComment{
     private $mysqlConn;
 
     function __construct(){
-        $this->mysqlConn = mysqli_connect("localhost:33060", "root", "therootpasswordserver339017");
+        $this->mysqlConn = mysqli_connect("dbapp", "root", "therootpasswordserver339017", "comments");
     }
 
     function process($postBody){
         $comment = $postBody["comment"];
         $user = $postBody["user"];
         $page = $postBody["page"];
+        
+        $query = $this->mysqlConn->prepare("insert into comments values (?, ?, ?, default)");
+        $query->bind_param("sss", $user, $comment, $page);
+        $query->execute();
+
     }
 }
 

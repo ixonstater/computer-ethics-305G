@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+  webapp:
+    image: nginx
+    volumes:
+      - /home/ixonstater/school/computer-ethics/src:/var/www/html
+      - /home/ixonstater/school/computer-ethics/access.log:/var/log/nginx/access.log
+      - /home/ixonstater/school/computer-ethics/docker/site.conf:/etc/nginx/conf.d/site.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+
+  php:
+    image: php:latest
+  
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: therootpasswordserver339017
+    volumes:
+      - /home/ixonstater/school/computer-ethics/mysqldata:/var/lib/mysql
+    ports:
+      - "33060:3306"

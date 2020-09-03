@@ -28,7 +28,7 @@ Comments.prototype.createUi = function (){
     document.body.appendChild(submitButton)
 }
 
-Comments.prototype.submitComment = function (){
+Comments.prototype.submitComment = async function (){
     var comment = this.textArea.value
     var username = this.userField.value
 
@@ -47,19 +47,20 @@ Comments.prototype.submitComment = function (){
         page: this.pageName
     })
 
-    fetch("http://codefordays.io/api/submitComment.php", {
+    var response = await fetch("http://codefordays.io/api/submitComment.php", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
           },
           body: body
-    }).then(function (response){
-        return response.json()
-    }).then(function (response){
-        if(!response.success){
-            alert("Comment failed to submit, you can contact me at joshuajarvis0711@gmail.com and I will look into the error.")
-        }
     })
+    var responseJson = await response.json()
+    if(!responseJson.success){
+        alert("Comment failed to submit, you can contact me at joshuajarvis0711@gmail.com and I will look into the error.")
+    }
+    else {
+        this.getComments()
+    }
 }
 
 Comments.prototype.getComments = async function (){

@@ -109,5 +109,5 @@ Comments.prototype.displayComments = function (comments){
         commentWrapper.appendChild(commentBody)
 
         this.commentsAppendPoint.appendChild(commentWrapper)
-    })
+    }.bind(this))
 }

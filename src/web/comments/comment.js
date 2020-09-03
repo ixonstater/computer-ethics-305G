@@ -47,7 +47,7 @@ Comments.prototype.submitComment = async function (){
         page: this.pageName
     })
 
-    var response = await fetch("http://codefordays.io/api/submitComment.php", {
+    var response = await fetch(window.location.hostname + "/api/submitComment.php", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ Comments.prototype.getComments = async function (){
         page: this.pageName
     })
 
-    var response = await fetch("http://codefordays.io/api/getComments.php", {
+    var response = await fetch(window.location.hostname + "/api/getComments.php", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

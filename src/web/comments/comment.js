@@ -3,6 +3,7 @@ function Comments(pageName){
     this.textArea = null
     this.userField = null
     this.submittedComments = null
+    this.commentsAppendPoint = null
 }
 
 Comments.prototype.createUi = function (){
@@ -26,6 +27,11 @@ Comments.prototype.createUi = function (){
     submitButton.style.marginTop = "20px"
     submitButton.addEventListener("click", this.submitComment.bind(this))
     document.body.appendChild(submitButton)
+
+    var appendPoint = document.createElement("div")
+    appendPoint.id = "append-point"
+    this.commentsAppendPoint = appendPoint
+    document.body.appendChild(appendPoint)
 }
 
 Comments.prototype.submitComment = async function (){
@@ -84,10 +90,11 @@ Comments.prototype.getComments = async function (){
 }
 
 Comments.prototype.displayComments = function (comments){
+    this.commentsAppendPoint.innerHTML = ""
+
     comments.forEach(function (comment){
         var commentWrapper = document.createElement("div")
         commentWrapper.style.width = "700px"
-        commentWrapper.style.postion = "relative"
         commentWrapper.style.border = "2px solid black"
         commentWrapper.style.marginTop = "20px"
         commentWrapper.style.paddingLeft = "10px"
@@ -101,6 +108,6 @@ Comments.prototype.displayComments = function (comments){
         commentWrapper.appendChild(commentTitle)
         commentWrapper.appendChild(commentBody)
 
-        document.body.appendChild(commentWrapper)
+        this.commentsAppendPoint.appendChild(commentWrapper)
     })
 }
